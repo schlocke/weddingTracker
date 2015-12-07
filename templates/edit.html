@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+	<section class="container">
+		<div class="row">
+			<table id="attendants" class="table table-responsive table-bordered">
+				<thead>
+					<tr>
+						<td>name</td>
+						<td>address</td>
+						<td>rsvp</td>
+						<td>meal</td>
+						<td>table</td>
+						<td>rehearsal? (meal)</td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for attendee in attendants %}
+						<tr>
+							<td><input name="name[{{attendee.id}}]" value="{{attendee.name}}"></td>
+							<td><input name="address[{{attendee.id}}]" value="{{attendee.address}}"></td>
+							<td>
+								<select name="status[{{attendee.id}}]">
+									<option value='1'>accepted</option>
+									<option value='0'>declined</option>
+								</select>
+							</td>
+							<td>
+								<select name="meal[{{attendee.id}}]">
+									<option value='1'>Chicken</option>
+									<option value='2'>Beef</option>
+									<option value='3'>Fish</option>
+									<option value='5'>Kid's Meal</option>
+									<option value='6'>Grandma</option>
+									<option value='10'>Undecided</option>
+								</select>
+							</td>
+							<td>
+								<select name="table[{{attendee.id}}]">
+									<option value='1'></option>
+									<option value='2'></option>
+									<option value='3'></option>
+									<option value='4'></option>
+									<option value='5'></option>
+									<option value='6'></option>
+									<option value='7'></option>
+									<option value='8'></option>
+									<option value='9'></option>
+									<option value='10'></option>
+									<option value='11'></option>
+									<option value='12'></option>
+									<option value='13'></option>
+									<option value='14'></option>
+									<option value='15'></option>
+									<option value='16'></option>
+									<option value='17'></option>
+									<option value='18'></option>
+								</select>
+							</td>
+							<td>
+								<select name="rehearsal[{{attendee.id}}]">
+									<option value='0'>NO</option>
+									<option value='1'>YES (Duck)</option>
+									<option value='2'>YES (NY Strip)</option>
+									<option value='3'>YES (Mahi)</option>
+									<option value='4'>YES (Kid's Meal)</option>
+									<option value='5'>YES (Undecided)</option>
+								</select>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+	    	$('#attendants').DataTable({
+        		"paging": false
+        	});
+		});
+	</script>
+{% endblock %}

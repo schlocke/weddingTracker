@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+	<section class="container" style="margin-top: 60px;display: block;">
+		<div class="row">
+			<table id="attendants" class="table table-responsive table-bordered">
+				<thead>
+					<tr>
+						<td>name</td>
+						<td>address</td>
+						<td>rsvp</td>
+						<td>meal</td>
+						<td>table</td>
+						<td>rehearsal? (meal)</td>
+						<td>gift</td>
+						<td>TY card sent?</td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for attendee in attendants %}
+						<tr>
+							<td>{{attendee.name}}</td>
+							<td>{{attendee.address}}</td>
+							<td>{{attendee.status}}</td>
+							<td>{{attendee.meal_name}}</td>
+							<td>{{attendee.table_name}}</td>
+							<td>{{attendee.rehearsal_dinner == 0 ? 'NO' : 'YES ('~attendee.rehearsal_dinner_meal_name~')'}}</td>
+							<td>not yet</td>
+							<td>no</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+	    	$('#attendants').DataTable({
+        		"paging": false
+        	});
+		});
+	</script>
+{% endblock %}
