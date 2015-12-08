@@ -27,7 +27,7 @@ $app->view->parserExtensions = array(new \Slim\Views\TwigExtension());
 
 // Set singleton value
 $app->container->singleton('db', function () {
-    return new PDO('mysql:host=127.0.0.1;dbname=test','root','');
+    return new PDO('mysql:host=127.0.0.1;dbname=wedding','root','');
 });
 
 require '../routes/index.php';

@@ -3,91 +3,138 @@
 {% block styles %}
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <style>
+    	.save {
+    		position: absolute;
+    		top: 100px;
+    		left: 25px;
+    	}
+    </style>
 {% endblock %}
 
 {% block main %}
-	<section class="container">
+	<section class="container" style="margin-top: 60px;display: block;">
 		<div class="row">
-			<table id="attendants" class="table table-responsive table-bordered">
-				<thead>
-					<tr>
-						<td>name</td>
-						<td>address</td>
-						<td>rsvp</td>
-						<td>meal</td>
-						<td>table</td>
-						<td>rehearsal? (meal)</td>
-					</tr>
-				</thead>
-				<tbody>
-					{% for attendee in attendants %}
+			<form id="updateAttendants">
+				<table id="attendants" class="table table-responsive table-bordered">
+					<thead>
 						<tr>
-							<td><input name="name[{{attendee.id}}]" value="{{attendee.name}}"></td>
-							<td><input name="address[{{attendee.id}}]" value="{{attendee.address}}"></td>
-							<td>
-								<select name="status[{{attendee.id}}]">
-									<option value='1'>accepted</option>
-									<option value='0'>declined</option>
-								</select>
-							</td>
-							<td>
-								<select name="meal[{{attendee.id}}]">
-									<option value='1'>Chicken</option>
-									<option value='2'>Beef</option>
-									<option value='3'>Fish</option>
-									<option value='5'>Kid's Meal</option>
-									<option value='6'>Grandma</option>
-									<option value='10'>Undecided</option>
-								</select>
-							</td>
-							<td>
-								<select name="table[{{attendee.id}}]">
-									<option value='1'></option>
-									<option value='2'></option>
-									<option value='3'></option>
-									<option value='4'></option>
-									<option value='5'></option>
-									<option value='6'></option>
-									<option value='7'></option>
-									<option value='8'></option>
-									<option value='9'></option>
-									<option value='10'></option>
-									<option value='11'></option>
-									<option value='12'></option>
-									<option value='13'></option>
-									<option value='14'></option>
-									<option value='15'></option>
-									<option value='16'></option>
-									<option value='17'></option>
-									<option value='18'></option>
-								</select>
-							</td>
-							<td>
-								<select name="rehearsal[{{attendee.id}}]">
-									<option value='0'>NO</option>
-									<option value='1'>YES (Duck)</option>
-									<option value='2'>YES (NY Strip)</option>
-									<option value='3'>YES (Mahi)</option>
-									<option value='4'>YES (Kid's Meal)</option>
-									<option value='5'>YES (Undecided)</option>
-								</select>
-							</td>
+							<td>name</td>
+							<td>address</td>
+							<td>rsvp</td>
+							<td>meal</td>
+							<td>table</td>
+							<td>rehearsal? (meal)</td>
+							<td>gift</td>
+							<td>TY card sent?</td>
 						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{% for attendee in attendants %}
+							<tr>
+								<td><input name="attendant[{{attendee.id}}][name]" value="{{attendee.name}}"></td>
+								<td><input name="attendant[{{attendee.id}}][address]" value="{{attendee.address}}"></td>
+								<td>
+									<select name="attendant[{{attendee.id}}][status]">
+										<option value='4' {% if attendee.rsvp == 4 %}selected{% endif %}>accepted</option>
+										<option value='3' {% if attendee.rsvp == 3 %}selected{% endif %}>declined</option>
+										<option value='2' {% if attendee.rsvp == 2 %}selected{% endif %}>waiting</option>
+										<option value='1' {% if attendee.rsvp == 1 %}selected{% endif %}>need to send</option>
+									</select>
+								</td>
+								<td>
+									<select name="attendant[{{attendee.id}}][meal]">
+										<option value='1' {% if attendee.meal_id == 1 %}selected{% endif %}>Chicken</option>
+										<option value='2' {% if attendee.meal_id == 2 %}selected{% endif %}>Beef</option>
+										<option value='3' {% if attendee.meal_id == 3 %}selected{% endif %}>Fish</option>
+										<option value='5' {% if attendee.meal_id == 5 %}selected{% endif %}>Kid's Meal</option>
+										<option value='6' {% if attendee.meal_id == 6 %}selected{% endif %}>Grandma</option>
+										<option value='10' {% if attendee.meal_id == 10 %}selected{% endif %}>Undecided</option>
+									</select>
+								</td>
+								<td>
+									<select name="attendant[{{attendee.id}}][table]">
+										{% for table in tables %}
+											<option value='{{table.id}}' {% if attendee.table_id == table.id %}selected{% endif %}>{{table.name}}</option>
+										{% endfor %}
+									</select>
+								</td>
+								<td>
+									<select name="attendant[{{attendee.id}}][rehearsal]">
+										<option value='0' {% if attendee.rehearsal_dinner == 0 %}selected{% endif %}>no</option>
+										<option value='1' {% if attendee.rehearsal_dinner_meal_id == 1 %}selected{% endif %}>yes (Duck)</option>
+										<option value='2' {% if attendee.rehearsal_dinner_meal_id == 2 %}selected{% endif %}>yes (NY Strip)</option>
+										<option value='3' {% if attendee.rehearsal_dinner_meal_id == 3 %}selected{% endif %}>yes (Mahi)</option>
+										<option value='4' {% if attendee.rehearsal_dinner_meal_id == 4 %}selected{% endif %}>yes (Kid's Meal)</option>
+										<option value='5' {% if attendee.rehearsal_dinner_meal_id == 5 and attendee.rehearsal_dinner == 1%}selected{% endif %}>yes (Undecided)</option>
+									</select>
+								</td>
+								<td><input name="attendant[{{attendee.id}}][gift]" value="{{attendee.gift}}"></td>
+								<td>
+									<select name="attendant[{{attendee.id}}][tycard]">
+										<option value='1' {% if attendee.thank_you_card_sent == 1 %}selected{% endif %}>yes</option>
+										<option value='0' {% if attendee.thank_you_card_sent == 0 %}selected{% endif %}>no</option>
+									</select>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</form>
 		</div>
 	</section>
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js"></script>
 	<script>
+
+		// request permission on page load
+		document.addEventListener('DOMContentLoaded', function () {
+		  if (Notification.permission !== "granted")
+		    Notification.requestPermission();
+		});
+
+		function notifyMe(message) {
+		  if (!Notification) {
+		    alert('Desktop notifications not available in your browser. Try Chromium.'); 
+		    return;
+		  }
+
+		  if (Notification.permission !== "granted")
+		    Notification.requestPermission();
+		  else {
+		    var notification = new Notification("Ahem!", {
+		      body: message,
+		    });
+		  }
+
+		}
 		$(document).ready(function() {
-	    	$('#attendants').DataTable({
-        		"paging": false
+
+			function loader(message) {
+				notifyMe(message);
+			}
+
+        	$("#updateAttendants").submit(function(e) {
+        		e.preventDefault();
+
+				$.ajax({
+					url: "/weddingTracker/public/edit",
+					method: "post",
+					dataType: "json",
+					data: $(this).serialize(),
+					beforeSend: function( xhr ) {
+						loader("LOADING!...");
+					}
+				}).done(function( data ) {
+					if(data.success) loader("The attendants have been updated!");
+				});
         	});
+
+			$("#submitForm").click(function(){
+				console.log("click");
+				$("#updateAttendants").submit();
+	        });
 		});
 	</script>
 {% endblock %}

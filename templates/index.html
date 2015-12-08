@@ -30,7 +30,7 @@
 							<td>{{attendee.meal_name}}</td>
 							<td>{{attendee.table_name}}</td>
 							<td>{{attendee.rehearsal_dinner == 0 ? 'NO' : 'YES ('~attendee.rehearsal_dinner_meal_name~')'}}</td>
-							<td>not yet</td>
+							<td>{{attendee.gift}}</td>
 							<td>no</td>
 						</tr>
 					{% endfor %}
