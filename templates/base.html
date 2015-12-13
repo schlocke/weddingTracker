@@ -4,6 +4,17 @@
         <meta charset="utf-8"/>
         <title>Wedding stuff</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+        <style>
+          #submitForm {
+            background-color: springgreen;
+            font-size: 25px;
+            color: white;
+            cursor:pointer;
+          }
+          #submitForm:hover {
+            color: grey;
+          }
+        </style>
         {% block styles %}{% endblock %}
     </head>
     <body>
@@ -16,14 +27,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Our Wedding</a>
+              <a class="navbar-brand" href="#">Chelsea & John's Wedding</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="/weddingTracker/public/"><span class="glyphicon glyphicon-home"></span> Go Home</a></li>
                 <li><a href="/weddingTracker/public/edit">Edit Attendants</a></li>
-                <li><a href="/weddingTracker/public/tables">Set up Tables</a></li>
-                <li><button class="btn btn-primary" id="submitForm"><span class="glyphicon glyphicon-floppy-disk"></span></a>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li><a id="submitForm"><span class="glyphicon glyphicon-floppy-disk"></span></a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>
